@@ -15,7 +15,7 @@ interface User  {
       password: string,
       firstname: string,
       lastname: string,
-      balance: Number
+      balance: number
 }
 
 const readDbFile = (): DbSchema => {
@@ -128,17 +128,6 @@ app.post<any,any,any>('/deposit',
           }
          })
          if(auser!==null){
-           db.users.filter((item)=>{
-            return item!==auser
-           })
-          db.users.push({
-            username: auser?.username as string,
-            password: auser?.password as string,
-            firstname: auser?.firstname as string,
-            lastname: auser?.lastname as string,
-            balance: auser?.balance+amount 
-          })
-          fs.writeFileSync('db.json', JSON.stringify(db,null,2))
           res.status(200).json({
             message: 'Deposit succesfully',
             balance: auser?.balance+amount
@@ -174,17 +163,9 @@ app.post<any,any,any>('/withdraw',
          db.users.filter((item)=>{
           return item!==auser
          })
-        db.users.push({
-          username: auser?.username as string,
-          password: auser?.password as string,
-          firstname: auser?.firstname as string,
-          lastname: auser?.lastname as string,
-          balance: auser?.balance+amount
-        })
-        fs.writeFileSync('db.json', JSON.stringify(db,null,2))
         res.status(200).json({
           message: 'Withdraw succesfully',
-         // balance: auser?.balance-amount
+        // balance: num-j
         })
        }
     }catch(e){
