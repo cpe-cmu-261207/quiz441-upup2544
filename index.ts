@@ -150,6 +150,7 @@ app.post<any,any,any>('/deposit',
     
   })
 
+
 app.post<any,any,any>('/withdraw',
   (req, res) => {
     try{
@@ -168,19 +169,19 @@ app.post<any,any,any>('/withdraw',
        const num =auser?.balance as Number
        if (!validationResult(req).isEmpty() || j > num)
         return res.status(400).json({ message: "Invalid data" })
-       if(auser!==null){
+       if(auser!==null && auser!==undefined){
         db.users.pop()
         db.users.push({
           username: auser?.username as string,
           password: auser?.password as string,
           firstname: auser?.firstname as string,
           lastname: auser?.lastname as string,
-          balance: auser?.balance+amount
+          balance: Number(auser?.balance )-amount
         })
         fs.writeFileSync('db.json', JSON.stringify(db,null,2))
         res.status(200).json({
           message: 'Withdraw succesfully',
-         // balance: auser?.balance-amount
+         balance: Number(auser?.balance )-amount
         })
        }
     }catch(e){
